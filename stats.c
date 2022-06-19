@@ -6,18 +6,24 @@
  * permitted to modify this and use it to learn about the field of embedded
  * software. Alex Fosdick and the University of Colorado are not liable for any
  * misuse of this material. 
+ * *****************************************************************************/
+
+/****************************************************************************
+ * @file Stats.c
+ * @brief Statistical Analysis on a given set of data
  *
- *****************************************************************************/
-/**
- * @file <Add File Name> 
- * @brief <Add Brief Description Here >
+ * @author Abdul Fattah Molade
+ * @date   Edited June 19, 2022 
  *
- * <Add Extended Description Here>
- *
- * @author <Add FirsName LastName>
- * @date <Add date >
- *
- */
+ * A simple c-Programming example to write a couple of functions that can 
+ *  analyze an array of unsigned char data items and report analytics on the 
+ *  given data then return the:
+ *	-Maximum
+ *	-Minimum
+ *	-Mean
+ *	-Median
+ *	-Number Histogram 
+ ***************************************************************************/
 
 
 
@@ -40,4 +46,30 @@ void main() {
 
 }
 
-/* Add other Implementation File Code Here */
+void print_statistics (int *ptr) {
+
+}
+
+void print_array (int *ptr) {
+
+}
+
+int find_median (int *ptr, int length) {
+  return 0;
+}
+
+int find_mean (int *ptr, int length) {
+  return 0;
+}
+
+int find_maximum (int *ptr, int length) {
+  return 0;
+}
+
+int find_minimum (int *ptr, int length) {
+  return 0;
+}
+
+void sort_array (int *ptr, int length) {
+
+}

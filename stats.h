@@ -9,32 +9,100 @@
  *
  *****************************************************************************/
 /**
- * @file <Add File Name> 
- * @brief <Add Brief Description Here >
+ * @file stats.h 
+ * @brief Statistical Analysis on a given set of data
  *
- * <Add Extended Description Here>
- *
- * @author <Add FirsName LastName>
- * @date <Add date >
+ * @author Abdul Fattah Molade
+ * @date   Edited June 19, 2022
  *
  */
 #ifndef __STATS_H__
 #define __STATS_H__
 
-/* Add Your Declarations and Function Comments here */ 
 
-/**
- * @brief <Add Brief Description of Function Here>
- *
- * <Add Extended Description Here>
- *
- * @param <Add InputName> <add description here>
- * @param <Add InputName> <add description here>
- * @param <Add InputName> <add description here>
- * @param <Add InputName> <add description here>
- *
- * @return <Add Return Informaiton here>
- */
 
+/**************************************************************************
+ * Function: print_statistics
+ * Description:
+ * 	This function takes as an input a given set of array and prints the 
+ *	statistics of the array including the minimum, maximum, mean, and 
+ *	median.
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ * Return:
+ *	void
+ *************************************************************************/
+void print_statistics (int *ptr) ;
+
+/**************************************************************************
+ * Function: print_array
+ * Description:
+ * 	This function takes as an input a given set of array and prints the 
+ *	array to the screen
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ * Return: void
+ *************************************************************************/
+void print_array (int *ptr) ;
+
+/**************************************************************************
+ * Function: find_median
+ * Description:
+ * 	This function takes as an input a given set of array and a length 
+ *	then returns the median
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ 	int length: The length of the array
+ * Return: median
+ *************************************************************************/
+int find_median (int *ptr, int length);
+
+/**************************************************************************
+ * Function: find_mean
+ * Description:
+ * 	This function takes as an input a given set of array and a length 
+ *	then returns the mean of the data set
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ 	int length: The length of the array
+ * Return: median
+ *************************************************************************/
+int find_mean (int *ptr, int length);
+
+/**************************************************************************
+ * Function: find_maximum
+ * Description:
+ * 	This function takes as an input a given set of array and a length 
+ *	then returns the maxinum number 
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ 	int length: The length of the array
+ * Return: maximum
+ *************************************************************************/
+int find_maximum (int *ptr, int length);
+
+/**************************************************************************
+ * Function: find_minimum
+ * Description:
+ * 	This function takes as an input a given set of array and a length 
+ *	then returns the minimum number
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ 	int length: The length of the array
+ * Return: minimum
+ *************************************************************************/
+int find_minimum (int *ptr, int length);
+
+/**************************************************************************
+ * Function: sort_array
+ * Description:
+ * 	This function takes as an input a given set of array and a length 
+ *	then sorts the array from largest to smallest
+ * Parameters:
+ *	int *ptr: Pointer to a data set
+ 	int length: The length of the array
+ * Return: void
+ *************************************************************************/
+void sort_array (int *ptr, int length);
 
 #endif /* __STATS_H__ */
