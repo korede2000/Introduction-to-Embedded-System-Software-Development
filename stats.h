@@ -32,7 +32,8 @@
  * Return:
  *	void
  *************************************************************************/
-void print_statistics (int *ptr) ;
+void print_statistics (unsigned int minimum, unsigned int maximum, 
+			int mean, unsigned int median) ;
 
 /**************************************************************************
  * Function: print_array
@@ -40,10 +41,10 @@ void print_statistics (int *ptr) ;
  * 	This function takes as an input a given set of array and prints the 
  *	array to the screen
  * Parameters:
- *	int *ptr: Pointer to a data set
+ *	unsigned char *ptest: Pointer to a data set
  * Return: void
  *************************************************************************/
-void print_array (int *ptr) ;
+void print_array (unsigned char *ptest, int length) ;
 
 /**************************************************************************
  * Function: find_median
@@ -55,7 +56,7 @@ void print_array (int *ptr) ;
  	int length: The length of the array
  * Return: median
  *************************************************************************/
-int find_median (int *ptr, int length);
+int find_median (unsigned char array[], int length);
 
 /**************************************************************************
  * Function: find_mean
@@ -67,7 +68,7 @@ int find_median (int *ptr, int length);
  	int length: The length of the array
  * Return: median
  *************************************************************************/
-int find_mean (int *ptr, int length);
+int find_mean (unsigned char *ptest, int length);
 
 /**************************************************************************
  * Function: find_maximum
@@ -79,7 +80,7 @@ int find_mean (int *ptr, int length);
  	int length: The length of the array
  * Return: maximum
  *************************************************************************/
-int find_maximum (int *ptr, int length);
+int find_maximum (unsigned char array[], int length);
 
 /**************************************************************************
  * Function: find_minimum
@@ -91,7 +92,7 @@ int find_maximum (int *ptr, int length);
  	int length: The length of the array
  * Return: minimum
  *************************************************************************/
-int find_minimum (int *ptr, int length);
+int find_minimum (unsigned char array[], int length);
 
 /**************************************************************************
  * Function: sort_array
@@ -99,10 +100,10 @@ int find_minimum (int *ptr, int length);
  * 	This function takes as an input a given set of array and a length 
  *	then sorts the array from largest to smallest
  * Parameters:
- *	int *ptr: Pointer to a data set
+ *	unsigned char ptest: Pointer to a data set
  	int length: The length of the array
  * Return: void
  *************************************************************************/
-void sort_array (int *ptr, int length);
+void sort_array (unsigned char *ptest, int length) ;
 
 #endif /* __STATS_H__ */
