@@ -10,25 +10,10 @@
 #*****************************************************************************
 
 # Add your Source files to this variable
-ifeq ($(PLATFORM), MSP432)
-	SOURCES = *.c
-	
-	INCLUDES = -I../includes/CMIS/cmis_gcc.h \
-		-I../includes/CMIS/core_cm4.h \
-		-I../includes/CMIS/core_cmFunc.h \
-		-I../includes/CMIS/core_cmInstr.h \
-		-I../includes/CMIS/core_cmSimd.h \
-		-I../includes/common/memory.h \
-		-I../includes/common/platform.h \
-		-I../includes/msp432/msp432p401r.h \
-		-I../includes/msp432/msp_compatibility.h \
-		-I../includes/msp432/system_msp432p401r.h \
-else
-	SOURCES = main.c \
-		  memory.c
-		  
-	INCLUDES = -I../includes/common/memory.h \
-		-I../includes/common/platform.h
-endif
-		
+SOURCES = \
+	./main.c \
+	./memory.c \
+
+# Add your include paths to this variable
+INCLUDES = -I ../include/common
 

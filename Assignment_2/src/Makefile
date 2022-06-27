@@ -30,56 +30,59 @@
 include sources.mk
 
 # Platform Overrides
-# PLATFORM = 
-BASENAME = clm2
+PLATFORM = HOST
+BASENAME = c1m2
 TARGET = $(BASENAME).out
 
 # Architectures Specific Flags
 ifeq ($(PLATFORM), MSP432)
-	LINKER_FILE = -T ../msp432P401r.lds
 	CPU = cortex-m4
 	ARCH = armv7e-m
 	SPECS = nosys.specs
-else
-	CPU = x86_64
-	ARCH:=$(shell arch)
-endif
-
-
-# Compiler Flags and Defines
-ifeq ($(PLATFORM), MSP432)
+	SOURCES+= 	./startup_msp432p401r_gcc.c \
+				./system_msp432p401r.c \
+				./interrupts_msp432p401r_gcc.c
+	
+	INCLUDES+= 	-I ../include/CMSIS/ \
+				-I ../include/msp432/
+	# Compiler
 	CC = arm-none-eabi-gcc
+
+	# Linker
 	LD = arm-none-eabi-ld
-	## -Wl: Pass option to linker from compiler, -Map: Output a memory map file from the result of linking
-	LDFLAGS = -W $(LINKER_FILE)
-	## -Wall: Enables all warning messages, -Werror: Treat all warnings as errors 
-	CFLAGS = -mcpu=$(CPU) -march=$(ARCH) --specs=$(SPECS) -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb -Wall -Werror -O0 -g -std=c99
-	CPPFLAGS = -M -MF -MD 
-	DEFINEFLAG = -DMSP432
+	SIZE = arm-none-eabi-size
+	LINKER_FILE = ../msp432p401r.lds
+	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
+	
+	CFLAGS = -mcpu=$(CPU) -march=$(ARCH) --specs=$(SPECS) -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb -Wall -Werror -O0 -g -std=c99 \
+				--specs=nosys.specs
+			
+	CPPFLAGS = -DMSP432 $(INCLUDES)
+
 else
 	CC = gcc
-	#LD = 
-	LDFLAGS = -W
-	CFLAGS = -Wall -Werror -O0 -g -std=c99
-	CPPFLAGS = -M -MF -MD 
-	DEFINEFLAG = -DHOST
-	#INCLUDES= -include../includes/common/platform.h
+	CFLAGS = -Wall -Werror -g -O0 -std=c99
+	CPPFLAGS = -DHOST $(INCLUDES)
+	SIZE = size
+	
 endif
+
 
 #Other declared variables
 OBJS = $(SOURCES:.c=.o)
 ASMS = $(SOURCES:.c=.s)
 PPS = $(SOURCES:.c=.i) 
+DEPS = $(SOURCES:.c=.d)	
 
 #------------------------------------------------------------------------------
 # Target: <file>.i
 # Prerequisite: the .c file
 # Output: the .d as well as .i files
 #------------------------------------------------------------------------------
-%.i : %.c
 # The -E stops after preprocessing stage, do not compile
-	$(CC) $(CPPFLAGS) $(DEFINEFLAG) $<  $(CFLAGS) -E -o $@  
-	
+%.i: %.c
+	$(CC) -E $< $(CFLAGS) $(CPPFLAGS) -o $@
+
 #------------------------------------------------------------------------------
 # Target: <file>.asm
 # Prerequisite: the .c file
@@ -87,7 +90,8 @@ PPS = $(SOURCES:.c=.i)
 #------------------------------------------------------------------------------
 %.asm : %.c
 ## The -S stops after compiling the file but do not link
-	$(CC) $(DEFINEFLAG) $<  $(CFLAGS) -S -objdump 
+%.asm: %.c
+	$(CC) -S $< $(CFLAGS) $(CPPFLAGS) -o $@
 	
 #------------------------------------------------------------------------------
 # Target: <file>.o
@@ -95,9 +99,17 @@ PPS = $(SOURCES:.c=.i)
 # Output: the .o file from the corresponding .c file
 #------------------------------------------------------------------------------
 %.o : %.c
-	$(CC) $(DEFINEFLAG) $<  $(CFLAGS) -c 
+	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) -o $@
 
 #------------------------------------------------------------------------------
+# Target: <file>.o
+# Prerequisite: the .c file
+# Output: the .o file from the corresponding .c file
+#------------------------------------------------------------------------------
+%.d: %c
+	$(CC) -E -M $<  $(CPPFLAGS) -o $@
+#------------------------------------------------------------------------------
+
 # Target: compile-all
 # Prerequisite: the .c file
 # Output: all source files are compiled but not linked, 
@@ -106,7 +118,7 @@ PPS = $(SOURCES:.c=.i)
 .PHONY: compile-all
 # OBJ here is the SRCS
 compile-all: $(OBJS)
-	$(CC) $(SOURCES) $(OBJS) $(DEFINEFLAG)  $(CFLAGS) -c $@
+	$(CC) -c $(SOURCES) $(OBJS) $(DEFINEFLAG)  $(CFLAGS) $(CPPFLAGS)  -o $@
 
 #------------------------------------------------------------------------------
 # Target: build
@@ -115,9 +127,9 @@ compile-all: $(OBJS)
 #------------------------------------------------------------------------------
 .PHONY: build
 build: $(TARGET)
-$(TARGET) : $(OBJS)
-	$(CC) $(DEFINEFLAG) $(SOURCES) $(OBJS) $(CFLAGS) -o $@  $(LDFLAGS) $^ 
-	size $(TARGET)
+$(TARGET): $(OBJS)
+	$(CC)  $(OBJS) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ 
+	$(SIZE) $@
 	
 #------------------------------------------------------------------------------
 # Target: clean

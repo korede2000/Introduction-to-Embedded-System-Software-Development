@@ -20,7 +20,7 @@
  * @date April 1 2017
  *
  */
-//#include "platform.h"
+#include "platform.h"
 #include "memory.h"
 
 #define MAX_LENGTH (10)
